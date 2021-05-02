@@ -9,4 +9,8 @@ module.exports = function (app) {
     app.get("/about", function (req, res) {
         res.render("about.html");
     });
+    app.get("/search-result", function (req, res) {
+        //searching in the database
+        res.send("This is the keyword you entered: " + req.query.keyword + "<br>" + "This is the    result of the search:");
+    });
 }
