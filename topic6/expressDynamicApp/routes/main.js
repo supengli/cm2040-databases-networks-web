@@ -34,9 +34,9 @@ module.exports = function (app) {
     })
     app.post("/bookadded", (req, res) => {
 
-        db.query('INSERT INTO books SET ?', req.body, function (error, results, fields) {
+        db.query("INSERT INTO books SET ?", req.body, function (error, results, fields) {
             if (error) {
-                return console.error(error.message);
+                return console.error("error: " + error.message);
             }
             else {
                 console.log(results.insertId);
@@ -44,4 +44,15 @@ module.exports = function (app) {
             }              
         });
     })
+    app.get("/search-result-db", function (req, res) {
+        // execute sql query
+        db.query("SELECT * FROM books WHERE name like ?", [req.query.keyword], (error, results) => {
+            if (error) {
+                return console.error("No book found with the keyword you have entered" + req.query.keyword + "error: " + err.message);
+            }
+            else {
+                res.render('list.html', { availableBooks: results });
+            }
+        });
+    });
 }
