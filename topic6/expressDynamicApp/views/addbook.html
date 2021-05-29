@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>add book</title>
+</head>
+
+<body>
+    <h1> This is the add book page </h1>
+    <p>Please input name and price of the book to be added</p>
+    <form action="/bookadded" method="POST" enctype="application/x-www-form-urlencoded">
+        <input id="name" type="text" name="name" value="Your Cool Book" />
+        <input id="price" type="text" name="price" value="0.00" />
+        <input type="submit" value="OK">
+    </form>
+    <a href="/list">View all the books</a>
+</body>
+
+</html>

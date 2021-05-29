@@ -29,4 +29,19 @@ module.exports = function (app) {
             res.render("list.html", { availableBooks: result });
         });
     });
+    app.get("/addbook", (req, res) => {
+        res.render("addbook.html");
+    })
+    app.post("/bookadded", (req, res) => {
+
+        db.query('INSERT INTO books SET ?', req.body, function (error, results, fields) {
+            if (error) {
+                return console.error(error.message);
+            }
+            else {
+                console.log(results.insertId);
+                res.send(" This book is added to database, name: " + req.body.name + " price " + req.body.price);
+            }              
+        });
+    })
 }
