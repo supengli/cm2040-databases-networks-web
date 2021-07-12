@@ -4,4 +4,9 @@ module.exports = function (app) {
     app.get("/", function (req, res) {
         res.render("home.html")
     });
+
+    // A route for R2: About page
+    app.get("/aboutPage", function (req, res) {
+        res.render("about.html")
+    });
 };
