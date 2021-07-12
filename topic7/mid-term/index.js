@@ -22,7 +22,8 @@ const db = mysql.createConnection({
 
 global.db = db;*/
 
-
+// Serve static files in Express according to https://expressjs.com/en/starter/static-files.html
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 require("./routes/main")(app);
 app.set("views", __dirname + "/views");
