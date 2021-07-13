@@ -15,7 +15,7 @@ module.exports = function (app) {
         dbRun("SELECT name, fields FROM devices;").then(value =>res.render("add.ejs", devices=value));
     });
 
-    // A aroute for R3B
+    // A route for R3B
     app.post("/add", function (req, res) {
         console.log(req.body);
         const {deviceName, ...fields}  = req.body;
@@ -23,4 +23,9 @@ module.exports = function (app) {
         dbRun("INSERT INTO devicesAdded SET ?;", device).then( value => dbRun("SELECT name, fields FROM devices;")).then(value =>res.render("add.ejs", devices=value));
         ;
     })
+
+    // A route for R4A: Show device page
+    app.get("/addPage", function (req, res) {
+        dbRun("SELECT name, fields FROM devicesAdded;").then(value =>res.render("show.ejs", devices=value));
+    });
 };

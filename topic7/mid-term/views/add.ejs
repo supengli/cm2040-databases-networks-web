@@ -70,7 +70,10 @@
                     <% for(let field of device.fields){ %>
                         <label class="<%= device.name%> fields" hidden="true"><%= device.name%> <%= field.field_name%></label>
                         <% if (field.field_type=="boolean") { %>
-                            <input type="checkbox" class="form-control <%= device.name%> fields" data-field-name="<%= field.field_name%>" hidden="true">
+                            <select class="form-control <%= device.name%> fields" name="deviceName" data-field-name="<%= field.field_name%>" hidden="true">
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                            </select>
                         <% } %>
                         <% if (field.field_type=="number") { %>
                             <input type="number" class="form-control <%= device.name%> fields" data-field-name="<%= field.field_name%>" hidden="true">
@@ -88,6 +91,7 @@
     </div>
 </body>
 <script>
+    // Address the requirement R3C to dynamically hide input tag that is not applicable
     function inputChange(){
 
 
@@ -96,7 +100,7 @@
         for (let e of allInputs) {
             e.setAttribute("hidden", true);
             e.removeAttribute("name");
-            delete document.deviceForm[e.getAttribute("data-field-name")];
+            //delete document.deviceForm[e.getAttribute("data-field-name")];
         }
 
         let selectedDeviceInputs = document.getElementsByClassName("fields " + selectedDeviceName);
