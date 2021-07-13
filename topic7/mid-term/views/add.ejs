@@ -130,7 +130,7 @@
             return false;
         }
 
-        if( volumeInput !== undefined && (Number(volumeInput.value) < 0 || Number(volumeInput.value) > 20) ) {
+        if( volumeInput !== undefined && (Number(volumeInput.value) < 0 || Number(volumeInput.value) > 100) ) {
             alert("Volume must be between 0 and 100");
             volumeInput.focus();
             return false;
