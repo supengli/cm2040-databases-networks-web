@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>MySmartHome</title>
+    <script src="js/jquery-3.5.1.slim.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="py-2">
+        <div class="container text-center">
+            <h1>
+                MySmartHome
+            </h1>
+        </div>
+    </header>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-light bg-light navbar-expand-md d-print-none">
+        <div class="container">
+            <!-- Navigation Bar Brand -->
+            <a class="navbar-brand" href="/">MySmartHome</a>
+            <!-- Navigation Bar Toggoler -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-content">
+                <span class="navbar-toggler-icon"> </span>
+            </button>
+            <!-- Navigation -->
+            <div class="collapse navbar-collapse" id="navbar-content">
+                <!-- Navitation Menu -->
+                <!-- LHS Menu -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./aboutPage">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./addPage">Add device</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./showPage">Show device status</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./updatePage">Updatedevice status</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./deletePage">Delete device</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="deletePage" class="container">
+        <!-- Device Selector -->
+        <h1></h1>
+        <form id = "deviceForm" action="/delete" method="POST" onsubmit = "return(confirm(`Delete device id ${document.getElementById('deviceId').value}?`));">
+            <div class="form-group">
+                <label for="deviceId">Please go to "Show device status: page to find the device id to be deleted. And input the id below.</label>
+                <input class="form-control" name="deviceId" id="deviceId">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Submit form</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
