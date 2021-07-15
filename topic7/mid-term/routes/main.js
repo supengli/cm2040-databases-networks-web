@@ -25,12 +25,12 @@ module.exports = function (app) {
 
     // A route for R4A: Show device page
     app.get("/showPage", function (req, res) {
-        dbRun("SELECT name, fields FROM devices;").then(value =>res.render("show.ejs", {devices: value, selectedDevice: undefined},));        
+        dbRun("SELECT name, fields FROM devices;").then(value =>res.render("show.ejs", {devices: value, selectedDevice: undefined},));
     });
 
     // Return selected device data
     app.get("/showDashboard", function (req, res) {
-        let deviceName = req.query.deviceName;
+        const deviceName = req.query.deviceName;
         dbRun("SELECT id, name, fields FROM devicesAdded WHERE ?", {name: deviceName}).
         then(value => {
             // If not found return a message
@@ -44,4 +44,24 @@ module.exports = function (app) {
         }).catch(error => res.render("message.ejs", message={title: `${deviceName} is not found`, body: `No ${deviceName} has been inserted before`}))
         ;        
     });
+
+    // A route for R6A:
+    app.get("/deletePage", function (req, res) {
+        res.render("delete.html");
+    });
+
+    // A route for R6B:
+    app.post("/delete", function (req, res) {
+        const deviceId = req.body.deviceId;
+        dbRun("DELETE FROM devicesAdded WHERE ?;", {id: deviceId}).
+        then(value =>{
+            // If nothing is deleted send a message to tell the user the specified device id is not found
+            if (value.affectedRows === 0) {
+                return Promise.reject(0);
+            }
+            // Otherwise, tell the user the specified device id has been deleted
+            res.send(res.render("message.ejs", message={title: `${deviceId} is deleted`, body: `The device with device id ${deviceId} has been deleted`}))
+        }).catch(value => res.render("message.ejs", message={title: `${deviceId} is not found`, body: `No device with device id ${deviceId} has been inserted before`}));
+    });
+
 };
