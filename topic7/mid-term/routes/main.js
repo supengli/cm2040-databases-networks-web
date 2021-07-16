@@ -64,4 +64,28 @@ module.exports = function (app) {
         }).catch(value => res.render("message.ejs", message={title: `${deviceId} is not found`, body: `No device with device id ${deviceId} has been inserted before`}));
     });
 
+    // A route for R5A:
+    app.get("/updatePage", async function (req, res) {
+        const devices = await dbRun("SELECT name, fields FROM devices;")
+        const addedDevices = await dbRun("SELECT id, name FROM devicesAdded;");
+
+        res.render("update.ejs", {devices, addedDevices});
+    });
+
+    // A route for R5B:
+    app.post("/update", function (req, res) {
+        const {deviceId, ...fields}  = req.body;
+
+        dbRun("UPDATE devicesAdded SET fields = ? WHERE id = ?;", [JSON.stringify(fields), Number(deviceId)]).
+        then(value =>{
+            console.log(value);
+            // If nothing is deleted send a message to tell the user the specified device id is not found
+            if (value.affectedRows === 0) {
+                return Promise.reject(0);
+            }
+            // Otherwise, tell the user the specified device id has been deleted
+            res.send(res.render("message.ejs", message={title: `${deviceId} is updated`, body: `The device with device id ${deviceId} has been updated`}))
+        }).catch(value => res.render("message.ejs", message={title: `${deviceId} is not found`, body: `No device with device id ${deviceId} has been inserted before`}));
+    });
+
 };
