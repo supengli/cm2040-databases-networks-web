@@ -1,4 +1,5 @@
-// This function is used for validate the input of form
+// This function addressess R3D and R5C.
+// This function is used for validate the input of form.
 function validateDeviceForm() {
 
     let deviceSelect = document.getElementById("deviceName");

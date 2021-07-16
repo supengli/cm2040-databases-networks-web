@@ -1,3 +1,5 @@
+// This function addressess R3C and R5C.
+// This function dynamically hides and shows fields.
 function showFields(deviceName){
     // Hide all fields
     const allInputs = document.getElementsByClassName("fields");
