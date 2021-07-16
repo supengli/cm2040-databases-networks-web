@@ -8,6 +8,8 @@
     <title>MySmartHome</title>
     <script src="js/jquery-3.5.1.slim.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/validateDeviceForm.js"></script>
+    <script src="js/showFields.js"></script>
 </head>
 
 <body>
@@ -56,10 +58,11 @@
         </div>
     </nav>
     <div id="addPage" class="container">
+        <!-- // Address the requiement R3D with client side form validation  -->
         <form action="/add" method="POST" name="deviceForm" onsubmit = "return(validateDeviceForm());">
             <div class="form-group">
                 <label for="deviceName">Select a device here</label>
-                <select class="form-control" name="deviceName" id="deviceName" onchange="inputChange()">
+                <select class="form-control" name="deviceName" id="deviceName" onchange="showFields(this.value)">
                 <% devices.forEach(function(device){ %>
                     <option value="<%= device.name%>"><%= device.name%></option>
                 <% }) %>  
@@ -70,7 +73,7 @@
                     <% for(let field of device.fields){ %>
                         <label class="<%= device.name%> fields" hidden="true"><%= device.name%> <%= field.field_name%></label>
                         <% if (field.field_type=="boolean") { %>
-                            <select class="form-control <%= device.name%> fields" name="deviceName" data-field-name="<%= field.field_name%>" hidden="true">
+                            <select class="form-control <%= device.name%> fields" data-field-name="<%= field.field_name%>" hidden="true">
                                 <option value="true">True</option>
                                 <option value="false">False</option>
                             </select>
@@ -91,65 +94,6 @@
     </div>
 </body>
 <script>
-    // Address the requirement R3C to dynamically hide input tag that is not applicable
-    function inputChange(){
-
-
-        let selectedDeviceName=document.getElementById("deviceName").value;
-        let allInputs = document.getElementsByClassName("fields" );
-        for (let e of allInputs) {
-            e.setAttribute("hidden", true);
-            e.removeAttribute("name");
-            //delete document.deviceForm[e.getAttribute("data-field-name")];
-        }
-
-        let selectedDeviceInputs = document.getElementsByClassName("fields " + selectedDeviceName);
-        for (let e of selectedDeviceInputs) {
-            e.removeAttribute("hidden");
-            e.setAttribute("name", e.getAttribute("data-field-name"));
-        }
-        
-    }
-
-    // Address the requiement R3D with cliend side form validation
-    function validateDeviceForm() {
-
-        let deviceSelect = document.getElementById("deviceName");
-        let volumeInput = document.getElementsByName("volume").length == 0 ? undefined : document.getElementsByName("volume")[0];
-        let temperatureInput = document.getElementsByName("temperature").length == 0 ? undefined : document.getElementsByName("temperature")[0];
-
-        if( deviceSelect.value === "" ) {
-            alert("Device must be selected");
-            deviceSelect.focus();
-            return false;
-        }
-
-        if( volumeInput !== undefined && volumeInput.value === "" ) {
-            alert("Volume must be filled out");
-            volumeInput.focus();
-            return false;
-        }
-
-        if( volumeInput !== undefined && (Number(volumeInput.value) < 0 || Number(volumeInput.value) > 100) ) {
-            alert("Volume must be between 0 and 100");
-            volumeInput.focus();
-            return false;
-        }
-
-        if( temperatureInput !== undefined && temperatureInput.value === "" ) {
-            alert("Temperature must be filled out");
-            temperatureInput.focus();
-            return false;
-        }
-
-        if( temperatureInput !== undefined && (Number(temperatureInput.value) < 16 || Number(temperatureInput.value) > 30) ) {
-            alert("Temperature must be between 16 and 30");
-            temperatureInput.focus();
-            return false;
-        }
-
-        return( true );
-   }
     document.getElementById("deviceName").selectedIndex = -1;
 </script>
 </html>
